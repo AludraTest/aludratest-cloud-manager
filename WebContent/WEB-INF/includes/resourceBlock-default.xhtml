@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+	<div class="resource resource-#{res.state}">
+		<div style="display: table; height: 100%; width: 100%">
+			<div style="display: table-cell; vertical-align: middle">
+				<div class="resource-text" style="width: 100%; text-align: center">
+					<span class="resource-name">#{res}</span><br />
+					<span class="resource-state">#{res.state}</span>
+					<h:panelGroup layout="inline" class="resource-user" rendered="#{not empty res.userName}"><br />#{res.userName}</h:panelGroup>
+				</div>
+			</div>
+		</div>
+	</div>
+</ui:composition>
+</html>

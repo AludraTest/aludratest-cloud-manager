@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<f:metadata>
+		<f:viewParam name="groupId" value="#{editGroupBean.groupId}" />
+	</f:metadata>
+
+<ui:composition template="/WEB-INF/template/default.xhtml">
+
+	<ui:define name="content">
+		<h:outputStylesheet name="group.css" library="acm" target="head" />
+		<p:growl id="messagebox" />
+
+		<h2>Edit Resource Group Settings</h2>
+		
+		<h:commandLink action="resourceGroup" value="&lt;&lt; Return to resource status view" immediate="true" />
+		<br /><br />
+		
+		<h:panelGrid columns="3" id="group_base_table">
+			<p:outputLabel for="group_name" value="Group Name:" />
+			<p:inputText id="group_name" value="#{editGroupBean.groupName}" size="30" required="true" requiredMessage="Please enter a name for the group." />
+			<p:message for="group_name" />
+			<h:outputText value="Resources Type:" />
+			<h:outputText value="#{editGroupBean.resourceTypeDisplayName}" />
+			<h:outputText value="" />
+		</h:panelGrid>
+		<br />
+		<p:commandButton ajax="true" value="Rename Group" process="group_base_table" update="messagebox group_base_table :mainForm:side_menu" action="#{editGroupBean.rename}" />&#160;
+		<p:commandButton action="#{editGroupBean.deleteGroup}" value="Delete Group" styleClass="red-button" ajax="false" onclick="return confirm('Do you really want do delete this group?');" immediate="true" />
+		
+		<br /><br />
+		<p:fieldset id="limit_users_section" legend="Limit Users" rendered="#{editGroupBean.limitUsersSupported}">
+			<h:panelGroup layout="block" id="users_controls">
+				<div>
+					<p:selectBooleanCheckbox value="#{editGroupBean.limitingUsers}" style="vertical-align: middle">
+						<p:ajax update="users_list" />
+					</p:selectBooleanCheckbox>&#160;
+					<h:outputText style="vertical-align: middle" value="Limit access to this resource group" />
+				</div>
+				<br /><br />
+				<p:pickList value="#{editGroupBean.selectedUsersModel}" id="users_list" var="user" disabled="#{not editGroupBean.limitingUsers}"
+					converter="#{applicationBean.userConverter}" itemValue="#{user}" itemLabel="#{user.name}">
+					<f:facet name="sourceCaption">No access</f:facet>
+	        		<f:facet name="targetCaption">Access</f:facet>
+	        		
+	        		<p:column style="width:95%">
+	        		    <h:outputText styleClass="fa fa-user" value=" " />
+	        		    #{user.name}
+	        		</p:column>
+				</p:pickList>
+			</h:panelGroup>
+			<br />
+			<p:commandButton ajax="true" value="Save Users" action="#{editGroupBean.save}" process="limit_users_section" update="users_controls messagebox" />
+		</p:fieldset>
+		<br />
+		
+		<h:panelGroup layout="block" id="group_settings_main">
+			<ui:include src="#{editGroupBean.groupSettingsXhtml}" />
+		</h:panelGroup>
+		<br /><br />
+		
+		<h:panelGroup id="nature_settings">
+			<c:forEach items="#{editGroupBean.activeNatures}" var="nature">
+				<ui:include src="#{editGroupBean.getNatureSettingsXhtml(nature)}" />
+				<br />
+				<p:commandButton value="Remove #{editGroupBean.getNatureName(nature)} Nature" action="#{editGroupBean.removeNature(nature)}" process="@this" update=":mainForm:messagebox :mainForm:nature_settings :mainForm:add_nature_upd" />
+			</c:forEach>
+		</h:panelGroup>
+		
+		<h:panelGroup id="add_nature_upd">
+			<h:panelGroup id="add_nature" rendered="#{not empty editGroupBean.availableNatures}">
+				<h3>Add group nature</h3>
+				<p>You can add natures to this resource group to activate additional functionality. Please select a nature and click "Add nature" to add a nature to this group.</p>
+				<p:selectOneMenu value="#{editGroupBean.natureToAdd}" style="vertical-align: middle">
+					<f:selectItems value="#{editGroupBean.availableNatures}" />
+				</p:selectOneMenu>&#160;
+				<p:commandButton value="Add Nature" action="#{editGroupBean.addNature}" process="add_nature" update="messagebox nature_settings add_nature_upd" style="vertical-align: middle" />
+				<br /><br />
+			</h:panelGroup>
+		</h:panelGroup>
+		
+	</ui:define>
+	
+</ui:composition>
+
+</f:view>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="/WEB-INF/template/default.xhtml">
+
+	<ui:define name="content">
+		<h2>User Administration</h2>
+		
+		<pe:ajaxErrorHandler />
+
+		<pe:masterDetail id="user_masterDetail"
+			selectLevelListener="#{userAdminBean.handleNavigation}"
+			showAllBreadcrumbItems="false" style="width: 700px">
+			<f:facet name="header">
+				<p:messages showDetail="false" showSummary="true" />
+			</f:facet>
+
+			<pe:masterDetailLevel level="1">
+				<f:facet name="label">
+					<h:outputText value="Overview Users" />
+				</f:facet>
+
+				<p:dataTable id="users" value="#{userAdminBean.users}" var="u">
+					<p:column headerText="Name">
+						<p:commandLink value="#{u.name}">
+							<pe:selectDetailLevel contextValue="#{u}" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column headerText="Actions">
+						<p:commandButton icon="ui-icon-pencil" title="Edit">
+							<pe:selectDetailLevel contextValue="#{u}" />
+						</p:commandButton>&#160;
+            			<p:commandButton icon="ui-icon-key" title="Reset Password" disabled="#{userAdminBean.readOnly}">
+							<pe:selectDetailLevel step="2" contextValue="#{u}" />
+						</p:commandButton>&#160;
+            			<p:commandButton icon="ui-icon-closethick" title="Delete"
+							action="#{userAdminBean.delete(u)}" disabled="#{userAdminBean.readOnly}">
+							<p:confirm header="Confirmation" message="Do you really want to delete this user?" icon="ui-icon-alert" />
+							<pe:selectDetailLevel level="1" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				
+				<p:commandButton value="Create" icon="ui-icon-plusthick">
+					<pe:selectDetailLevel level="2" contextValue="#{userAdminBean.newUser}" />
+				</p:commandButton>
+				
+				<p:confirmDialog global="true">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			    </p:confirmDialog>				
+			</pe:masterDetailLevel>
+
+			<pe:masterDetailLevel level="2" contextVar="user"
+				levelLabel="User Details">
+				<h:panelGrid id="userDetails" columns="2">
+					<p:outputLabel value="Name:" for="user_name" />
+					<p:inputText id="user_name" value="#{user.name}" disabled="#{empty user.newPassword or userAdminBean.readOnly}" />
+					<p:outputLabel value="E-Mail Address:" for="user_email"
+						rendered="#{userAdminBean.isAttributeSupported('email_address')}" />
+					<p:inputText id="user_email"
+						value="#{user.attributes['email_address']}" size="25"
+						rendered="#{userAdminBean.isAttributeSupported('email_address')}"
+						disabled="#{userAdminBean.readOnly}">
+						<!-- TODO E-Mail validator -->
+					</p:inputText>
+					<p:outputLabel value="Language:" for="user_language"
+						rendered="#{userAdminBean.isAttributeSupported('language')}"
+						disabled="#{userAdminBean.readOnly}" />
+					<p:selectOneMenu id="user_language"
+						value="#{user.attributes['language']}"
+						rendered="#{userAdminBean.isAttributeSupported('language')}">
+						<f:selectItems value="#{userAdminBean.availableLanguages}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				
+				<hr />
+				
+				<h3>User Resource Authorizations</h3>
+				<p:dataTable value="#{user.resourceAuthorizations}" var="auth">
+					<p:column headerText="Resource Type">
+						<p:selectOneMenu value="#{auth.resourceType}">
+							<f:selectItems value="#{userAdminBean.resourceTypeItems}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column headerText="Max. Resource Usage">
+						<p:spinner value="#{auth.maxResources}" min="0" max="1000" size="5" />
+					</p:column>
+					<p:column headerText="Nice Level (-19=best,+20=worst)">
+						<p:selectOneMenu value="#{auth.niceLevel}">
+							<f:selectItems value="#{userAdminBean.niceLevelItems}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column headerText="Actions">
+						<p:commandButton icon="ui-icon-closethick" action="#{user.removeAuthorization(auth)}">
+							<pe:selectDetailLevel step="0" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<p:commandButton value="Add" icon="ui-icon-plusthick" action="#{user.addAuthorization}">
+					<pe:selectDetailLevel step="0" />
+				</p:commandButton>
+				
+				<hr />
+
+				<p:commandButton value="Save" process="user_masterDetail"
+					action="#{userAdminBean.save(user)}" style="margin-top:10px;"
+					icon="ui-icon-disk" disabled="#{userAdminBean.readOnly}">
+					<pe:selectDetailLevel level="1" />
+				</p:commandButton>
+				<p:commandButton value="Cancel" immediate="true" process="@this"
+					action="#{userAdminBean.reset}"
+					update="user_masterDetail" style="margin-top:10px;"
+					icon="ui-icon-cancel">
+					<pe:selectDetailLevel level="1" />
+				</p:commandButton>
+			</pe:masterDetailLevel>
+
+			<pe:masterDetailLevel level="3" contextVar="user"
+				levelLabel="Reset User Password">
+				<h:panelGroup rendered="#{empty user.newPassword}">
+				<p>
+					Reset the password of user <b>#{user.name}</b>?
+				</p>
+				<p:commandButton value="Yes" action="#{userAdminBean.resetPassword(user)}" process="user_masterDetail">
+					<pe:selectDetailLevel step="0" />
+				</p:commandButton>
+				<p:commandButton value="No" immediate="true" process="@this" update="user_masterDetail">
+					<pe:selectDetailLevel level="1" />
+				</p:commandButton>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{not empty user.newPassword}">
+					<p>
+						The new password for user <b>#{user.name}</b> is <br />
+						<b style="font-size: larger;">#{user.newPassword}</b>
+					</p>
+					<p:commandButton value="OK" immediate="true" process="@this"
+						update="user_masterDetail">
+						<pe:selectDetailLevel step="-2" />
+					</p:commandButton>
+				</h:panelGroup>
+			</pe:masterDetailLevel>
+		</pe:masterDetail>
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

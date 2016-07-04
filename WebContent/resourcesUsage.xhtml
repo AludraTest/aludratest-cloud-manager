@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<h:body>
+
+<f:view>
+	<f:metadata>
+		<f:viewParam name="moduleName"
+			value="#{resourceReportBean.moduleName}" />
+	</f:metadata>
+	
+	<ui:composition template="/WEB-INF/template/default.xhtml">
+		<ui:define name="content">
+			<h:outputStylesheet name="nv.d3.min.css" library="acm" target="head" />
+
+			<script src="js/d3.min.js"></script>
+			<script src="js/nv.d3.min.js"></script>
+			<h2>Resources Usage</h2>
+
+			<p:panelGrid columns="2" id="chart_config">
+				<h:outputLabel for="module_name" value="Resource type:" />
+				<p:selectOneMenu value="#{resourceReportBean.moduleName}">
+					<f:selectItems value="#{resourceReportBean.moduleNames}" />
+				</p:selectOneMenu>
+				<h:outputLabel for="start_time" value="Report start date:" />
+				<p:calendar id="start_time" pattern="yyyy-MM-dd HH:mm:ss" value="#{resourceReportBean.reportStartDate}"  />
+				<h:outputLabel for="end_time" value="Report end date:" />
+				<p:calendar id="end_time" pattern="yyyy-MM-dd HH:mm:ss" value="#{resourceReportBean.reportEndDate}" />
+				<h:outputText value="" />
+				<p:commandButton value="Update Chart" ajax="false" action="#{resourceReportBean.updateChart}" process="chart_config" update="report_chart_area" />
+			</p:panelGrid>
+			
+			<p:messages />
+			
+			<br /><br />
+			<h:panelGroup id="report_chart_area">
+				<h3>Resources Usage of type #{resourceReportBean.moduleName}</h3>
+				<div>
+					<svg id="report_chart" width="800" height="500"></svg>
+				</div>
+			</h:panelGroup>
+			
+			<script type="text/javascript">
+var data = [{ values: #{resourceReportBean.resourcesUsageData} }];
+
+nv.addGraph(function() { 
+	var chart = nv.models.stackedAreaChart();
+	        
+    chart.useInteractiveGuideline(true);
+    chart.xScale(d3.time.scale.utc());
+    chart.color(['#68c']);
+    chart.duration(0);
+    chart.showControls(false);
+    chart.showLegend(false);
+	        
+    var tickMultiFormat = d3.time.format.multi([
+        ["%-I:%M%p", function(d) { return d.getMinutes(); }], // not the beginning of the hour
+        ["%-I%p", function(d) { return d.getHours(); }], // not midnight
+        ["%b %-d", function(d) { return d.getDate() != 1; }], // not the first of the month
+        ["%b %-d", function(d) { return d.getMonth(); }], // not Jan 1st
+        ["%Y", function() { return true; }]
+    ]);
+
+    chart.xAxis.showMaxMin(false);
+    chart.xAxis.tickFormat(function (d) { return tickMultiFormat(new Date(d)); });
+
+    chart.yAxis
+         .showMaxMin(true)
+         .tickFormat(d3.format(",.0f"))
+         .axisLabel("Resources in use")
+    ;
+
+    chart.interactiveLayer.tooltip.headerFormatter(function(d) { return d; });
+	chart.interactiveLayer.tooltip.keyFormatter(function() { return "Resources in use" });
+
+    var svgElem = d3.select('#report_chart');
+	svgElem
+	    .datum(data)
+	    .transition()
+	    .call(chart);
+	                
+    return chart;
+});
+			</script>
+		</ui:define>
+		
+	</ui:composition>
+	
+</f:view>
+
+</h:body>
+
+</html>
+

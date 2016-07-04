@@ -1,0 +1,83 @@
+div.slimLayout {
+	padding: 0;
+	margin: 0;
+	border: 0;	
+}
+
+div.slimLayout > .ui-layout-unit,
+div.slimLayoutUnit {
+	padding: 0;
+	margin: 0;
+	border: 0;	
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+div.slimLayout > .ui-layout-unit > .ui-layout-unit-content,
+div.slimLayoutUnit > .ui-layout-unit-content {
+	padding: 0;
+	margin: 0;
+}
+
+div.slimLayoutUnit.no-scroll > .ui-layout-unit-content {
+	overflow: hidden;
+	}
+
+
+div.sideMenu {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	background: none;
+	background-color: #283c51;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	font-family: sans-serif !important;
+	font-weight: normal !important;
+	font-size: 14px !important;
+}
+
+div.sideMenu .ui-corner-all {
+	-webkit-border-radius: 0px !important;
+	-moz-border-radius: 0px !important;
+	border-radius: 0px !important;
+	
+}
+
+div.sideMenu .ui-menu-list li.ui-menuitem {
+	border-bottom: solid 1px #395673;
+	padding-top: 5px;
+	padding-bottom: 5px;	
+	padding-left: 12px;
+}
+
+div.sideMenu a.ui-menuitem-link {
+	color: #adadad;
+	margin: 0;
+}
+
+div.sideMenu a.ui-menuitem-link.ui-state-hover {
+	color: #ffffff;
+	font-weight: normal;
+	background: 0 none;
+	-webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+}
+
+div.sideMenu .transparentSeparator {
+	height: 20px;
+	background: transparent;
+	border: 0 none;
+	-webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+}
+
+div.version-info {
+	font-size: smaller;
+	color: #adadad;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<f:metadata>
+		<f:viewParam name="groupId" value="#{resourceGroupBean.groupId}" />
+	</f:metadata>
+
+	<ui:composition template="WEB-INF/template/default.xhtml">
+		<ui:define name="content">
+			<table style="border: 0">
+				<tr>
+					<td>			
+						<h2>#{resourceGroupBean.groupName}</h2>
+					</td>
+					<td style="text-align: left">
+						<p:commandLink action="editgroup">
+							<i class="fa fa-fw fa-wrench"></i>
+						</p:commandLink>
+					</td>
+				</tr>
+			</table>
+			
+			<!-- Table displaying all resources and their status -->
+			<h:panelGroup id="resources_table">
+				<ui:repeat var="res" value="#{resourceGroupBean.allResources}">
+					<ui:include src="#{resourceGroupBean.resourceBlockXhtml}" />
+				</ui:repeat>
+			</h:panelGroup>
+			
+			<ui:include src="#{resourceGroupBean.resourceGroupSummaryXhtml}" />
+			
+			<!-- refresh every 5 seconds -->
+			<p:poll interval="5" update="resources_table" process="@this" />
+			
+		</ui:define>
+	</ui:composition>
+
+</f:view>
+</html>

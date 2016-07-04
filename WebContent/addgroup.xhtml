@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/default.xhtml">
+
+	<ui:define name="content">
+		<h2>Add new Resource Group</h2>
+		
+		<p>Use this page to add a new Resource Group of a known type to AludraTest Cloud Manager.</p>
+		<p>Please enter a name and select the type of the Resources for the group.</p>
+		
+		<h:panelGroup id="addgroup">
+			<h:panelGrid columns="3">
+				<p:outputLabel for="group_name" value="Group Name:" />
+				<p:inputText id="group_name" value="#{createGroupBean.groupName}" size="30" required="true" requiredMessage="Please enter a name for the group." />
+				<p:message for="group_name" />
+				<p:outputLabel for="group_type" value="Resources Type:" />
+				<p:selectOneMenu id="group_type" value="#{createGroupBean.resourceTypeName}">
+					<f:selectItems value="#{applicationBean.moduleItems}" />
+				</p:selectOneMenu>
+				<p:message for="group_type" />
+			</h:panelGrid>
+			<br /><br />
+			
+			<p:commandButton value="Create Group" action="#{createGroupBean.create}" ajax="false" />
+			<p:messages globalOnly="true" />
+		</h:panelGroup>
+	</ui:define>
+	
+</ui:composition>
+</html>

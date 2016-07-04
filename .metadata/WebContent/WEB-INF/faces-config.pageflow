@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14386108114070" configfile="/aludratest-cloud-manager/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="178" id="pf14386108389961" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" outlinks="pf14386108389962" inlinks="pf14386108389963" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="370" id="pf14386108389964" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14386108389965 pf14386108389963" path="/*"/>
+  <nodes xsi:type="pageflow:PFPage" name="config.xhtml" x="338" y="562" id="pf14386108389966" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf14386108389965" path="/config.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="resourceGroup.xhtml" x="554" y="562" id="pf14386108389967" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf14386999102080" inlinks="pf14386108389962 pf14386999102081" path="/resourceGroup.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="addgroup.xhtml" x="122" y="946" id="pf14386910452490" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14386910452491" path="/addgroup.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="editgroup.xhtml" x="338" y="946" id="pf14386910452492" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf14386999102081" inlinks="pf14386910452491 pf14386999102080" path="/editgroup.xhtml"/>
+  <links id="pf14386108389965" target="pf14386108389966" source="pf14386108389964" outcome="config" redirect="true"/>
+  <links id="pf14386108389963" target="pf14386108389961" source="pf14386108389964" outcome="index" redirect="true"/>
+  <links id="pf14386108389962" target="pf14386108389967" source="pf14386108389961" outcome="resourceGroup" redirect="true"/>
+  <links id="pf14386910452491" target="pf14386910452492" source="pf14386910452490" outcome="editgroup" redirect="true"/>
+  <links id="pf14386999102081" target="pf14386108389967" source="pf14386910452492" outcome="resourceGroup" redirect="true"/>
+  <links id="pf14386999102080" target="pf14386910452492" source="pf14386108389967" outcome="editgroup" redirect="true"/>
+</pageflow:Pageflow>

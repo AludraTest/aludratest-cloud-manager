@@ -1,0 +1,30 @@
+.configTable {
+	
+	width: 99%;
+	border: 0 none;
+	
+}
+
+.configTable > tbody > tr > td.ui-panelgrid-cell {
+	border: 0;	
+}
+
+.configTable td.label-column {
+	white-space: nowrap;
+}
+
+.configTable td.wide-column {
+	width: 100%;
+}
+
+.configTable td.help-column {
+	width: 20px;
+}
+
+.configTable tr.config-helptext td {
+	background: #dddddd;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 12px;
+	font-size: smaller;
+}

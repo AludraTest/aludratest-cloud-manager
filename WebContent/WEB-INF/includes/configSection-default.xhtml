@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<p:fieldset legend="Basic Settings">
+		<p>These are the basic settings for AludraTest Cloud Manager.</p>
+		<p:panelGrid columns="3" styleClass="configTable" columnClasses="label-column,wide-column,help-column">
+			<p:outputLabel for="basic_hostname" value="Name or IP of this host (e.g. for use in generated URLs):" />
+			<p:inputText id="basic_hostname" value="#{config['hostName']}" size="25" />
+			<ui:include src="/WEB-INF/includes/configHelp.xhtml">
+				<ui:param name="helpTextHtml" value="This URL is used e.g. when generating dynamic URLs which are sent to the client. &lt;br/&gt;It should differ from &quot;localhost&quot; for non-testing environments." />
+			</ui:include>
+			<p:outputLabel for="user_auth" value="User authentication:" />
+			<p:selectOneMenu id="user_auth" value="#{config['userAuthentication']}">
+				<f:selectItems value="#{configBean.userAuthenticationItems}" />
+			</p:selectOneMenu>
+			<ui:include src="/WEB-INF/includes/configHelp.xhtml">
+				<ui:param name="helpTextHtml" value="Select the user authentication engine for AludraTest Cloud Manager. Local engines can be administered using the Web interface. Remote engines, e.g. LDAP, require additional configuration below, and new users cannot be created using AludraTest Cloud Manager." />
+			</ui:include>
+			<p:outputLabel for="phantomjs_path" value="PhantomJS executable:" />
+			<p:inputText id="phantomjs_path" value="#{config['phantomJSExecutable']}" size="30" />
+			<ui:include src="/WEB-INF/includes/configHelp.xhtml">
+				<ui:param name="helpTextHtml" value="The full path of the PhantomJS executable which is used to render Highcharts reports to image files." />
+			</ui:include>
+			
+			<p:outputLabel for="useProxy" value="Use HTTP proxy to connect to the web" />
+			<p:selectBooleanCheckbox id="useProxy" value="#{config['useProxy']}">
+				<p:ajax process="useProxy" update="proxyHost proxyPort proxyBypassRegexp" />
+			</p:selectBooleanCheckbox>
+			<ui:include src="/WEB-INF/includes/configHelp.xhtml">
+				<ui:param name="helpTextHtml" value="If this server cannot connect directly to the internet, an HTTP proxy may be required to connect to internet addresses." />
+			</ui:include>
+
+			<p:outputLabel for="proxyHost" value="HTTP Proxy host:" />
+			<p:inputText id="proxyHost" value="#{config['proxyHost']}" size="25" disabled="#{not config['useProxy']}" />
+			<ui:include src="/WEB-INF/includes/configHelp.xhtml">
+				<ui:param name="helpTextHtml" value="The host name of the HTTP proxy to use." />
+			</ui:include>
+			
+			<p:outputLabel for="proxyPort" value="HTTP Proxy port:" />
+			<p:inputText id="proxyPort" value="#{config['proxyPort']}" size="5"  disabled="#{not config['useProxy']}">
+				<f:convertNumber integerOnly="true" pattern="#" groupingUsed="false" />
+			</p:inputText>
+			<ui:include src="/WEB-INF/includes/configHelp.xhtml">
+				<ui:param name="helpTextHtml" value="The TCP port of the HTTP proxy to use." />
+			</ui:include>
+			
+			<p:outputLabel for="proxyBypassRegexp" value="Bypass proxy for (regular expression):" />
+			<p:inputText id="proxyBypassRegexp" value="#{config['bypassProxyRegexp']}" size="20" disabled="#{not config['useProxy']}" />
+			<ui:include src="/WEB-INF/includes/configHelp.xhtml">
+				<ui:param name="helpTextHtml" value="Enter a valid regular expression identifying hosts to bypass the proxy server for. Example: 192\\.168\\..*|localhost" />
+			</ui:include>
+			
+		</p:panelGrid>
+		<br />
+	</p:fieldset>
+</ui:composition>
+</html>

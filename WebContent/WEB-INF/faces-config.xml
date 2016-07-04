@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<factory>
+		<exception-handler-factory>org.aludratest.cloud.web.jsf.CloudManagerExceptionHandlerFactory</exception-handler-factory>
+	</factory>
+
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>resourceGroup</from-outcome>
+			<to-view-id>/resourceGroup.xhtml</to-view-id>
+			<redirect include-view-params="true">
+				<redirect-param>
+					<name>groupId</name>
+					<value>#{applicationBean.selectedGroupId}</value>
+				</redirect-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/addgroup.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>editgroup</from-outcome>
+			<to-view-id>/editgroup.xhtml</to-view-id>
+			<redirect include-view-params="true">
+				<redirect-param>
+					<name>groupId</name>
+					<value>#{applicationBean.selectedGroupId}</value>
+				</redirect-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/editgroup.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>resourceGroup</from-outcome>
+			<to-view-id>/resourceGroup.xhtml</to-view-id>
+			<redirect include-view-params="true">
+				<redirect-param>
+					<name>groupId</name>
+					<value>#{editGroupBean.groupId}</value>
+				</redirect-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/resourceGroup.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>editgroup</from-outcome>
+			<to-view-id>/editgroup.xhtml</to-view-id>
+			<redirect include-view-params="true">
+				<redirect-param>
+					<name>groupId</name>
+					<value>#{resourceGroupBean.groupId}</value>
+				</redirect-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>config</from-outcome>
+			<to-view-id>/config.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>index</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>
