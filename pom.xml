@@ -10,12 +10,12 @@
 	<parent>
 		<groupId>org.aludratest</groupId>
 		<artifactId>cloud-manager-parent</artifactId>
-		<version>1-SNAPSHOT</version>
+		<version>1</version>
 	</parent>
 
 	<properties>
-		<acm.api.version>1.0.0-SNAPSHOT</acm.api.version>
-		<acm.impl.version>1.0.0-SNAPSHOT</acm.impl.version>
+		<acm.api.version>1.0.0</acm.api.version>
+		<acm.impl.version>1.0.0</acm.impl.version>
 		<!-- for filtering -->
 		<timestamp>${maven.build.timestamp}</timestamp>
 	</properties>
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>org.aludratest</groupId>
 			<artifactId>cloud-manager-selenium</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		
 		<!--

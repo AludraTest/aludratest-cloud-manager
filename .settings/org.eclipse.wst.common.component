@@ -4,15 +4,6 @@
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="cloud-manager-api-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cloud-manager-api/cloud-manager-api">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="cloud-manager-impl-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cloud-manager-impl/cloud-manager-impl">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="cloud-manager-selenium-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cloud-manager-selenium/cloud-manager-selenium">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="acm"/>
         <property name="java-output-path" value="/aludratest-cloud-manager/target/classes"/>
     </wb-module>
