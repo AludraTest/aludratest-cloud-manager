@@ -14,8 +14,9 @@
 	</parent>
 
 	<properties>
-		<acm.api.version>1.0.0</acm.api.version>
-		<acm.impl.version>1.0.0</acm.impl.version>
+		<cloud.manager.api.version>1.0.0</cloud.manager.api.version>
+		<cloud.manager.impl.version>1.0.0</cloud.manager.impl.version>
+		<cloud.manager.selenium.version>1.0.0</cloud.manager.selenium.version>
 		<!-- for filtering -->
 		<timestamp>${maven.build.timestamp}</timestamp>
 	</properties>
@@ -24,19 +25,19 @@
 		<dependency>
 			<groupId>org.aludratest</groupId>
 			<artifactId>cloud-manager-api</artifactId>
-			<version>${acm.api.version}</version>
+			<version>${cloud.manager.api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.aludratest</groupId>
 			<artifactId>cloud-manager-impl</artifactId>
-			<version>${acm.impl.version}</version>
+			<version>${cloud.manager.impl.version}</version>
 		</dependency>
 
 		<!-- include default resource modules -->
 		<dependency>
 			<groupId>org.aludratest</groupId>
 			<artifactId>cloud-manager-selenium</artifactId>
-			<version>1.0.0</version>
+			<version>${cloud.manager.selenium.version}</version>
 		</dependency>
 		
 		<!--
