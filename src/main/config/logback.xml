@@ -1,7 +1,6 @@
 <configuration>
 
-	<!-- logging configuration for PRODUCTION. Replaces DEVELOPMENT log on mvn 
-		clean package. -->
+	<!-- logging configuration for PRODUCTION. Replaces DEVELOPMENT log config when invoked with mvn package -P copy-logconfig -->
 
 	<appender name="file"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -20,7 +19,7 @@
 
 	<logger name="org.eclipse" level="INFO" />
 
-	<root level="debug">
+	<root level="INFO">
 		<appender-ref ref="file" />
 	</root>
 </configuration>
