@@ -16,7 +16,7 @@
 	<properties>
 		<cloud.manager.api.version>1.0.0</cloud.manager.api.version>
 		<cloud.manager.impl.version>1.0.0</cloud.manager.impl.version>
-		<cloud.manager.selenium.version>1.0.0</cloud.manager.selenium.version>
+		<cloud.manager.selenium.version>1.0.1</cloud.manager.selenium.version>
 		<!-- for filtering -->
 		<timestamp>${maven.build.timestamp}</timestamp>
 	</properties>
@@ -145,6 +145,13 @@
 					<include>acm-version.txt</include>
 				</includes>
 				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>*.xml</include>
+				</includes>
+				<filtering>false</filtering>
 			</resource>
 		</resources>
 
